@@ -9,6 +9,7 @@ def health(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("panel/", include("adminpanel.urls")),
     path("api/health/", health),
     path("api/", include("wallet.urls")),
 ]

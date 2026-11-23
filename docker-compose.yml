@@ -25,20 +25,6 @@ services:
       db:
         condition: service_healthy
 
-  laravel:
-    build: ./backend/laravel_api
-    command: php artisan serve --host=0.0.0.0 --port=8001
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
-    volumes:
-      - ./backend/laravel_api:/app
-    ports:
-      - "8001:8001"
-    depends_on:
-      db:
-        condition: service_healthy
-
   frontend:
     build: ./frontend
     command: npm run dev -- --host 0.0.0.0
@@ -49,7 +35,6 @@ services:
       - "5173:5173"
     depends_on:
       - django
-      - laravel
 
 volumes:
   pgdata:

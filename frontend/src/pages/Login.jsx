@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import AuthLayout from '../components/AuthLayout';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import AdBanner from '../components/AdBanner';
 import { useAuth } from '../context/authContext';
 import { isValidMobile } from '../utils/mobile';
 import { parseError } from '../utils/errors';
+import InterstitialAd from '../components/InterstitialAd';
 
 export default function Login() {
   const { login } = useAuth();
@@ -71,6 +73,8 @@ export default function Login() {
         <Button type="submit" loading={busy} className="btn-block">
           Log in
         </Button>
+        <AdBanner slot="login-strip" variant="strip" />
+      <InterstitialAd />
       </form>
     </AuthLayout>
   );

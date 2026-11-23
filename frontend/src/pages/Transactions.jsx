@@ -1,15 +1,17 @@
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import TxItem from '../components/TxItem';
 import Sheet from '../components/Sheet';
 import Button from '../components/Button';
 import EmptyState from '../components/EmptyState';
+import AdBanner from '../components/AdBanner';
 import { TxSkeletons } from '../components/Skeleton';
 import { useWallet } from '../context/walletContext';
 import { dayKey, dayLabel, formatDateTime } from '../utils/date';
 import { formatMoney } from '../utils/money';
 import { txLabel } from '../utils/tx';
+import InterstitialAd from '../components/InterstitialAd';
 
 const FILTERS = [
   { id: 'ALL', label: 'All' },
@@ -40,6 +42,7 @@ export default function Transactions() {
     <>
       <PageHeader title="Activity" />
       <div className="chips" role="group" aria-label="Filter by type">
+      <InterstitialAd />
         {FILTERS.map((f) => (
           <button key={f.id} type="button" className={`chip${filter === f.id ? ' on' : ''}`} aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>
             {f.label}
@@ -64,15 +67,18 @@ export default function Transactions() {
           }
         />
       ) : (
-        groups.map(([key, items]) => (
-          <section key={key} className="day">
-            <h2 className="day-label">{dayLabel(key)}</h2>
-            <div className="card card-pad">
-              {items.map((tx) => (
-                <TxItem key={tx.reference} tx={tx} onClick={setSelected} />
-              ))}
-            </div>
-          </section>
+        groups.map(([key, items], i) => (
+          <Fragment key={key}>
+            <section className="day">
+              <h2 className="day-label">{dayLabel(key)}</h2>
+              <div className="card card-pad">
+                {items.map((tx) => (
+                  <TxItem key={tx.reference} tx={tx} onClick={setSelected} />
+                ))}
+              </div>
+            </section>
+            {i % 3 === 0 ? <AdBanner slot={`activity-${i}`} variant="card" offset={i} /> : null}
+          </Fragment>
         ))
       )}
 

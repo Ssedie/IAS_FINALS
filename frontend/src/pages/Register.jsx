@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import AuthLayout from '../components/AuthLayout';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import AdBanner from '../components/AdBanner';
 import { useAuth } from '../context/authContext';
 import { isValidMobile } from '../utils/mobile';
 import { parseError } from '../utils/errors';
+import InterstitialAd from '../components/InterstitialAd';
 
 const KNOWN = ['first_name', 'last_name', 'mobile_number', 'password', 'pin'];
 
@@ -106,6 +108,8 @@ export default function Register() {
         <Button type="submit" loading={busy} className="btn-block">
           Create account
         </Button>
+        <AdBanner slot="register-strip" variant="strip" />
+      <InterstitialAd />
       </form>
     </AuthLayout>
   );

@@ -1,0 +1,21 @@
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Reference</th><th>Type</th><th>From</th><th>To</th><th class="num">Amount</th><th>Date</th></tr>
+  </thead>
+  <tbody>
+  {% for t in rows %}
+    <tr>
+      <td>{{ t.reference }}</td>
+      <td><span class="pill">{{ t.get_type_display }}</span></td>
+      <td>{% if t.sender %}{{ t.sender.user.get_full_name|default:t.sender.user.username }}{% else %}<span class="muted">-</span>{% endif %}</td>
+      <td>{% if t.biller %}{{ t.biller.name }}{% elif t.receiver %}{{ t.receiver.user.get_full_name|default:t.receiver.user.username }}{% else %}<span class="muted">-</span>{% endif %}</td>
+      <td class="num">₱{{ t.amount|floatformat:"2g" }}</td>
+      <td>{{ t.created_at|date:"Y-m-d H:i" }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="6" class="muted">No transactions yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>

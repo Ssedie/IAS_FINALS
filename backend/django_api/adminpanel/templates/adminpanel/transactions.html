@@ -1,0 +1,30 @@
+{% extends "adminpanel/base.html" %}
+{% block title %}Transactions{% endblock %}
+{% block content %}
+<h1>Transactions</h1>
+<form class="filters" method="get">
+  <label>Type
+    <select name="type">
+      {% for value, label in form.fields.type.choices %}
+      <option value="{{ value }}" {% if form.type.value == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Reference
+    <input type="search" name="q" value="{{ form.q.value|default_if_none:'' }}" maxlength="50">
+  </label>
+  <label>From
+    <input type="date" name="date_from" value="{{ form.date_from.value|default_if_none:'' }}">
+  </label>
+  <label>To
+    <input type="date" name="date_to" value="{{ form.date_to.value|default_if_none:'' }}">
+  </label>
+  <button class="primary" type="submit">Filter</button>
+  <a class="btn" href="{% url 'panel:export' %}?{{ qs }}">Export CSV (up to 5,000 rows)</a>
+</form>
+{% if form.errors %}<p class="err">Some filters were ignored. Check that the dates are valid.</p>{% endif %}
+<div class="card">
+  {% include "adminpanel/_txn_table.html" with rows=page_obj %}
+</div>
+{% include "adminpanel/_pager.html" %}
+{% endblock %}

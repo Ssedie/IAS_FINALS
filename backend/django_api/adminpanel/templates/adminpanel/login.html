@@ -1,0 +1,19 @@
+{% extends "adminpanel/base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<div class="card login">
+  <h1>Admin log in</h1>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <label>Username
+      <input type="text" name="username" autocomplete="username" required autofocus>
+    </label>
+    <label>Password
+      <input type="password" name="password" autocomplete="current-password" required>
+    </label>
+    {% if error %}<p class="err" role="alert">{{ error }}</p>{% endif %}
+    <button class="primary" type="submit">Log in</button>
+  </form>
+</div>
+{% endblock %}

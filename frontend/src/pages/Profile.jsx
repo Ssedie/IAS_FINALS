@@ -3,7 +3,9 @@ import PageHeader from '../components/PageHeader';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Icon from '../components/Icon';
+import AdBanner from '../components/AdBanner';
 import { useAuth } from '../context/authContext';
+import InterstitialAd from '../components/InterstitialAd';
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -33,6 +35,8 @@ export default function Profile() {
         <Icon name="shield" size={18} />
         <span>You are logged out automatically after 5 minutes without activity. Never share your PIN or password.</span>
       </p>
+      <AdBanner slot="profile-banner" variant="card" />
+      <InterstitialAd />
       <Button variant="danger" className="btn-block" onClick={onLogout}>
         <Icon name="logout" size={18} /> Log out
       </Button>

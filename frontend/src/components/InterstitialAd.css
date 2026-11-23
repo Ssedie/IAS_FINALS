@@ -1,0 +1,126 @@
+/* Full-screen popup ad. Relies on --r-lg, --shadow and the `rise` keyframes from index.css. */
+.interstitial {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(11, 27, 20, 0.72);
+  overflow: auto;
+}
+
+.interstitial-panel {
+  --ad-bg: #1e3a8a;
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: min(84dvh, 620px);
+  border-radius: var(--r-lg);
+  background: var(--ad-bg);
+  color: #fff;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: rise 0.22s ease-out;
+  outline: none;
+}
+
+.interstitial-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 100%;
+  padding: 64px 28px 40px;
+  text-align: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.interstitial-meta {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.interstitial-tag {
+  padding: 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.interstitial-mark {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.interstitial-headline {
+  font-size: clamp(1.7rem, 6vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.interstitial-text {
+  max-width: 28ch;
+  font-size: 1.05rem;
+  opacity: 0.92;
+}
+
+.interstitial-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  margin-top: 8px;
+  padding: 0 28px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ad-bg);
+  font-weight: 800;
+}
+
+.interstitial-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-weight: 700;
+}
+
+.interstitial-close:disabled {
+  opacity: 0.8;
+  cursor: default;
+}
+
+.interstitial-close:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.interstitial-link:focus-visible,
+.interstitial-close:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -6px;
+}

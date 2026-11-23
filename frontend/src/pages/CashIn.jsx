@@ -5,9 +5,11 @@ import AmountField from '../components/AmountField';
 import Button from '../components/Button';
 import ConfirmFlow from '../components/ConfirmFlow';
 import Icon from '../components/Icon';
+import AdBanner from '../components/AdBanner';
 import { cashIn } from '../api/endpoints';
 import { useWallet } from '../context/walletContext';
 import { formatMoney, parseAmount, toAmountString, validateAmount } from '../utils/money';
+import InterstitialAd from '../components/InterstitialAd';
 
 const PRESETS = ['100', '500', '1000', '5000'];
 
@@ -60,6 +62,9 @@ export default function CashIn() {
           Review
         </Button>
       </form>
+
+      <AdBanner slot="cashin-banner" variant="banner" />
+      <InterstitialAd />
 
       {reviewing ? (
         <ConfirmFlow

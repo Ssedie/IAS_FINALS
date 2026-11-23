@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
+import AdBanner from '../components/AdBanner';
+import InterstitialAd from '../components/InterstitialAd';
 
 export default function NotFound() {
   return (
@@ -11,6 +13,8 @@ export default function NotFound() {
         <Link to="/" className="btn btn-primary btn-block">
           Go to PayWallet
         </Link>
+        <AdBanner slot="notfound-strip" variant="strip" />
+      <InterstitialAd />
       </div>
     </div>
   );

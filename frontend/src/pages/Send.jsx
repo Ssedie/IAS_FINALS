@@ -5,11 +5,13 @@ import Input from '../components/Input';
 import AmountField from '../components/AmountField';
 import Button from '../components/Button';
 import ConfirmFlow from '../components/ConfirmFlow';
+import AdBanner from '../components/AdBanner';
 import { sendMoney } from '../api/endpoints';
 import { useAuth } from '../context/authContext';
 import { useWallet } from '../context/walletContext';
 import { isValidMobile, normalizeMobile } from '../utils/mobile';
 import { parseAmount, toAmountString, validateAmount } from '../utils/money';
+import InterstitialAd from '../components/InterstitialAd';
 
 const NOTE_MAX = 140;
 
@@ -80,6 +82,9 @@ export default function Send() {
           Review
         </Button>
       </form>
+
+      <AdBanner slot="send-banner" variant="banner" />
+      <InterstitialAd />
 
       {reviewing ? (
         <ConfirmFlow

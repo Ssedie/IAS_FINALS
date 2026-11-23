@@ -1,0 +1,166 @@
+/* Simulated ads. The page container (.main) is a grid with a 16px gap,
+   so ads carry no margin of their own. */
+.ad {
+  --ad-bg: #1e3a8a;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 40px 14px 14px;
+  border-radius: var(--r-lg);
+  background: var(--ad-bg);
+  color: #fff;
+  text-align: left;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.ad-mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.ad-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ad-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.ad-tag {
+  padding: 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.ad-body .ad-headline {
+  margin-top: 2px;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.ad-body .ad-text {
+  margin-top: 2px;
+  font-size: 0.82rem;
+  opacity: 0.92;
+}
+
+.ad-cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ad-bg);
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ad-x {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  font-size: 1.2rem;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.ad-x:hover {
+  background: rgba(255, 255, 255, 0.18);
+  opacity: 1;
+}
+
+.ad .ad-cta:focus-visible,
+.ad .ad-x:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* The landing page is not a grid, so space its ad by hand. */
+.landing > .ad {
+  margin-top: 24px;
+}
+
+/* Larger block that sits between list sections. */
+.ad--card {
+  padding: 18px 44px 18px 18px;
+}
+
+.ad--card .ad-mark {
+  width: 52px;
+  height: 52px;
+  font-size: 1.4rem;
+}
+
+.ad--card .ad-headline {
+  font-size: 1.05rem;
+}
+
+/* Slim bar for the bottom of a page. */
+.ad--strip {
+  padding: 8px 40px 8px 10px;
+  border-radius: var(--r);
+}
+
+.ad--strip .ad-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.ad--strip .ad-headline {
+  font-size: 0.88rem;
+}
+
+.ad--strip .ad-cta {
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 0.8rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ad-body {
+    animation: ad-in 0.3s ease;
+  }
+}
+
+@keyframes ad-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

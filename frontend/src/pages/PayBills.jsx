@@ -7,10 +7,12 @@ import Button from '../components/Button';
 import ConfirmFlow from '../components/ConfirmFlow';
 import EmptyState from '../components/EmptyState';
 import Skeleton from '../components/Skeleton';
+import AdBanner from '../components/AdBanner';
 import { getBillers, payBill } from '../api/endpoints';
 import { useWallet } from '../context/walletContext';
 import { parseAmount, toAmountString, validateAmount } from '../utils/money';
 import { parseError } from '../utils/errors';
+import InterstitialAd from '../components/InterstitialAd';
 
 const CATEGORY_LABELS = {
   ELECTRICITY: 'Electricity',
@@ -89,6 +91,8 @@ export default function PayBills() {
   return (
     <>
       <PageHeader title="Pay bills" />
+      <AdBanner slot="bills-banner" variant="banner" />
+      <InterstitialAd />
       {billers.loading ? (
         <div role="status" aria-label="Loading billers" className="stack">
           <Skeleton height={20} width="40%" />

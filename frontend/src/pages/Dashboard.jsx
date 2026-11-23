@@ -5,11 +5,13 @@ import Card from '../components/Card';
 import TxItem from '../components/TxItem';
 import EmptyState from '../components/EmptyState';
 import Button from '../components/Button';
+import AdBanner from '../components/AdBanner';
 import { TxSkeletons } from '../components/Skeleton';
 import { useAuth } from '../context/authContext';
 import { useWallet } from '../context/walletContext';
 import { formatMoney } from '../utils/money';
 import { greeting } from '../utils/date';
+import InterstitialAd from '../components/InterstitialAd';
 
 const ACTIONS = [
   { to: '/send', label: 'Send', icon: 'send' },
@@ -58,6 +60,8 @@ export default function Dashboard() {
         ))}
       </nav>
 
+      <AdBanner slot="home-banner" variant="banner" rotateMs={8000} />
+
       <Card className="card-pad">
         <div className="section-head">
           <h2>Recent activity</h2>
@@ -81,6 +85,9 @@ export default function Dashboard() {
           recent.map((tx) => <TxItem key={tx.reference} tx={tx} />)
         )}
       </Card>
+
+      <AdBanner slot="home-strip" variant="strip" offset={2} />
+      <InterstitialAd />
     </>
   );
 }

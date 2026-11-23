@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
+import AdBanner from '../components/AdBanner';
 import { formatMoney } from '../utils/money';
+import InterstitialAd from '../components/InterstitialAd';
 
 export default function Landing() {
   return (
@@ -41,6 +43,8 @@ export default function Landing() {
           </div>
         </div>
       </main>
+      <AdBanner slot="landing-banner" variant="banner" rotateMs={8000} />
+      <InterstitialAd />
     </div>
   );
 }

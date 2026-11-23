@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Admin{% endblock %} - PayWallet</title>
+<style>
+:root{--bg:#f5f6f4;--card:#fff;--ink:#1b2420;--muted:#66726b;--line:#e1e6e2;--accent:#0b7a4b;--tint:#e4f3ea;--danger:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:var(--card);border-bottom:1px solid var(--line)}
+.topbar{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:20px;height:56px}
+.brand{font-weight:700;color:var(--accent);margin-right:8px}
+nav{display:flex;gap:4px;flex:1;flex-wrap:wrap}
+nav a{padding:6px 12px;border-radius:8px;color:var(--muted);text-decoration:none}
+nav a:hover{background:var(--bg)}
+nav a.active{background:var(--tint);color:var(--accent);font-weight:600}
+.who{color:var(--muted);font-size:14px}
+main{max-width:1100px;margin:0 auto;padding:24px 20px 48px}
+h1{font-size:22px;margin:0 0 18px}
+h2{font-size:16px;margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:18px}
+.stat .label{color:var(--muted);font-size:13px}
+.stat .value{font-size:24px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.split{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:18px}
+@media(max-width:800px){.split{grid-template-columns:1fr}}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:13px;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.chart{display:flex;align-items:flex-end;gap:10px;height:150px}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px}
+.fill{width:100%;max-width:44px;height:calc(var(--p) * 1.15px);min-height:2px;background:var(--accent);border-radius:4px 4px 0 0}
+.col span{font-size:12px;color:var(--muted)}
+.pill{display:inline-block;padding:1px 9px;border-radius:999px;background:var(--tint);color:var(--accent);font-size:13px}
+.pill.off{background:#f4e3e1;color:var(--danger)}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:16px}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+input,select,button,.btn{font:inherit;color:var(--ink);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.primary{background:var(--accent);color:#fff;border-color:var(--accent);cursor:pointer;text-decoration:none;display:inline-block}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pager{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:16px;color:var(--muted)}
+.pager a{color:var(--accent);text-decoration:none}
+.err{color:var(--danger)}
+.muted{color:var(--muted)}
+.login{max-width:360px;margin:72px auto}
+.login form{display:flex;flex-direction:column;gap:14px}
+.logout{margin:0}
+.logout button{background:none;border:0;color:var(--muted);cursor:pointer;padding:6px 8px}
+</style>
+</head>
+<body>
+{% if request.user.is_authenticated and request.user.is_staff %}
+<header>
+  <div class="topbar">
+    <span class="brand">PayWallet admin</span>
+    <nav>
+      <a href="{% url 'panel:dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+      <a href="{% url 'panel:users' %}" class="{% if request.resolver_match.url_name == 'users' %}active{% endif %}">Users</a>
+      <a href="{% url 'panel:transactions' %}" class="{% if request.resolver_match.url_name == 'transactions' %}active{% endif %}">Transactions</a>
+      <a href="{% url 'panel:audit' %}" class="{% if request.resolver_match.url_name == 'audit' %}active{% endif %}">Audit log</a>
+    </nav>
+    <span class="who">{{ request.user.username }}</span>
+    <form class="logout" method="post" action="{% url 'panel:logout' %}">{% csrf_token %}<button type="submit">Log out</button></form>
+  </div>
+</header>
+{% endif %}
+<main>{% block content %}{% endblock %}</main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{% extends "adminpanel/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="stats">
+  <div class="card stat"><div class="label">Registered users</div><div class="value">{{ stats.users }}</div></div>
+  <div class="card stat"><div class="label">Money held in wallets</div><div class="value">₱{{ stats.balance|floatformat:"2g" }}</div></div>
+  <div class="card stat"><div class="label">Transactions today</div><div class="value">{{ stats.txn_today }}</div></div>
+  <div class="card stat"><div class="label">Volume today</div><div class="value">₱{{ stats.volume_today|floatformat:"2g" }}</div></div>
+</div>
+
+<div class="split">
+  <div class="card">
+    <h2>Volume, last 7 days</h2>
+    <div class="chart">
+      {% for d in days %}
+      <div class="col" title="{{ d.n }} transactions, ₱{{ d.volume|floatformat:"2g" }}">
+        <div class="fill" style="--p:{{ d.pct }}"></div>
+        <span>{{ d.label }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="card">
+    <h2>By type</h2>
+    <table>
+      <thead><tr><th>Type</th><th class="num">Count</th><th class="num">Total</th></tr></thead>
+      <tbody>
+      {% for r in by_type %}
+        <tr><td>{{ r.label }}</td><td class="num">{{ r.n }}</td><td class="num">₱{{ r.total|floatformat:"2g" }}</td></tr>
+      {% empty %}
+        <tr><td colspan="3" class="muted">No transactions yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Recent transactions</h2>
+  {% include "adminpanel/_txn_table.html" with rows=recent %}
+</div>
+{% endblock %}
