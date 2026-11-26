@@ -3,26 +3,32 @@
 {% block content %}
 <h1>Users</h1>
 <form class="filters" method="get">
-  <label>Search by name or mobile number
+  <label>Search by name, email or mobile number
     <input type="search" name="q" value="{{ q }}" maxlength="50">
   </label>
   <button class="primary" type="submit">Search</button>
+  <a class="btn" href="{% url 'panel:export_users_csv' %}?{{ qs }}">Export CSV (up to 5,000 rows)</a>
+  <a class="btn" href="{% url 'panel:export_users_xlsx' %}?{{ qs }}">Export Excel (up to 5,000 rows)</a>
 </form>
 <div class="card">
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Name</th><th>Mobile number</th><th class="num">Balance</th><th>Status</th><th>Joined</th></tr></thead>
+  <thead><tr><th>Name</th><th>Job title</th><th>Gender</th><th>Address</th><th>Email</th><th>Mobile number</th><th class="num">Balance</th><th>Status</th><th>Joined</th></tr></thead>
   <tbody>
   {% for u in page_obj %}
     <tr>
       <td>{{ u.get_full_name|default:u.username }}</td>
+      <td>{{ u.profile.get_job_title_display|default:"—" }}</td>
+      <td>{{ u.profile.get_gender_display|default:"—" }}</td>
+      <td>{{ u.profile.address|default:"—" }}</td>
+      <td>{{ u.email|default:"—" }}</td>
       <td>{{ u.profile.mobile_number }}</td>
       <td class="num">₱{{ u.wallet.balance|floatformat:"2g" }}</td>
       <td>{% if u.is_active %}<span class="pill">Active</span>{% else %}<span class="pill off">Disabled</span>{% endif %}</td>
       <td>{{ u.date_joined|date:"Y-m-d" }}</td>
     </tr>
   {% empty %}
-    <tr><td colspan="5" class="muted">No users match.</td></tr>
+    <tr><td colspan="9" class="muted">No users match.</td></tr>
   {% endfor %}
   </tbody>
 </table>

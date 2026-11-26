@@ -1,36 +1,36 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
 
-from .models import Biller, Profile, Transaction, Wallet
-
-
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("user", "mobile_number", "created_at")
-    exclude = ("pin_hash",)
+from .models import Biller, Profile, Wallet
 
 
-@admin.register(Wallet)
-class WalletAdmin(admin.ModelAdmin):
-    list_display = ("user", "balance", "updated_at")
-    readonly_fields = ("balance",)
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    fields = ("mobile_number", "job_title", "address", "gender")
 
 
-@admin.register(Biller)
-class BillerAdmin(admin.ModelAdmin):
-    list_display = ("name", "category", "is_active")
-    list_filter = ("category", "is_active")
+class WalletInline(admin.StackedInline):
+    model = Wallet
+    can_delete = False
+    readonly_fields = ("balance", "updated_at")
 
 
-@admin.register(Transaction)
-class TransactionAdmin(admin.ModelAdmin):
-    list_display = ("reference", "type", "sender", "receiver", "amount", "created_at")
-    list_filter = ("type",)
+class UserAdmin(admin.ModelAdmin):
+    inlines = [ProfileInline, WalletInline]
+    list_display = ("username", "first_name", "last_name", "email", "job_title", "gender", "is_staff", "is_active")
+    list_select_related = ("profile",)
+    search_fields = ("username", "first_name", "last_name", "email", "profile__mobile_number")
 
-    def has_add_permission(self, request):
-        return False
+    @admin.display(description="Job title")
+    def job_title(self, obj):
+        return obj.profile.get_job_title_display() if getattr(obj.profile, "job_title", "") else ""
 
-    def has_change_permission(self, request, obj=None):
-        return False
+    @admin.display(description="Gender")
+    def gender(self, obj):
+        return obj.profile.get_gender_display() if getattr(obj.profile, "gender", "") else ""
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
+admin.site.register(Biller)

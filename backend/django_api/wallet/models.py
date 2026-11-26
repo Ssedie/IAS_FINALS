@@ -11,11 +11,31 @@ def new_reference():
 
 
 class Profile(models.Model):
+    class Gender(models.TextChoices):
+        MALE = "MALE", "Male"
+        FEMALE = "FEMALE", "Female"
+        NON_BINARY = "NON_BINARY", "Non-binary"
+        PREFER_NOT_TO_SAY = "PREFER_NOT_TO_SAY", "Prefer not to say"
+
+    class JobTitle(models.TextChoices):
+        STUDENT = "STUDENT", "Student"
+        PROFESSIONAL = "PROFESSIONAL", "Professional"
+        SELF_EMPLOYED = "SELF_EMPLOYED", "Self-employed"
+        BUSINESS_OWNER = "BUSINESS_OWNER", "Business owner"
+        GOVERNMENT_EMPLOYEE = "GOVERNMENT_EMPLOYEE", "Government employee"
+        OFW = "OFW", "Overseas Filipino worker (OFW)"
+        UNEMPLOYED = "UNEMPLOYED", "Unemployed"
+        RETIRED = "RETIRED", "Retired"
+        OTHER = "OTHER", "Other"
+
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
     )
     mobile_number = models.CharField(max_length=13, unique=True)  # +639XXXXXXXXX
     pin_hash = models.CharField(max_length=128)
+    job_title = models.CharField(max_length=20, choices=JobTitle.choices, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    gender = models.CharField(max_length=20, choices=Gender.choices, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def set_pin(self, raw_pin):

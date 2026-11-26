@@ -63,7 +63,11 @@ class MeView(APIView):
         return Response({
             "first_name": user.first_name,
             "last_name": user.last_name,
+            "email": user.email,
             "mobile_number": user.profile.mobile_number,
+            "address": user.profile.address,
+            "gender": user.profile.gender,
+            "job_title": user.profile.job_title,
             "balance": user.wallet.balance,
         })
 

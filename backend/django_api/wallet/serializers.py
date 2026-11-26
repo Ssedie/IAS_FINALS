@@ -45,12 +45,28 @@ class RegisterSerializer(serializers.Serializer):
     mobile_number = MobileField()
     first_name = serializers.CharField(max_length=60)
     last_name = serializers.CharField(max_length=60)
+    email = serializers.EmailField()
+    address = serializers.CharField(max_length=255)
+    gender = serializers.ChoiceField(choices=Profile.Gender.choices)
+    job_title = serializers.ChoiceField(choices=Profile.JobTitle.choices)
     password = serializers.CharField(write_only=True)
     pin = PinField()
 
     def validate_mobile_number(self, value):
         if Profile.objects.filter(mobile_number=value).exists():
             raise serializers.ValidationError("This number is already registered.")
+        return value
+
+    def validate_email(self, value):
+        value = value.strip().lower()
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("This email is already registered.")
+        return value
+
+    def validate_address(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("Enter your address.")
         return value
 
     def validate(self, attrs):
@@ -72,8 +88,15 @@ class RegisterSerializer(serializers.Serializer):
             password=validated_data["password"],
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],
+            email=validated_data["email"],
         )
-        profile = Profile(user=user, mobile_number=validated_data["mobile_number"])
+        profile = Profile(
+            user=user,
+            mobile_number=validated_data["mobile_number"],
+            address=validated_data["address"],
+            gender=validated_data["gender"],
+            job_title=validated_data["job_title"],
+        )
         profile.set_pin(validated_data["pin"])
         profile.save()
         Wallet.objects.create(user=user)

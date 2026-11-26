@@ -21,6 +21,7 @@
   </label>
   <button class="primary" type="submit">Filter</button>
   <a class="btn" href="{% url 'panel:export' %}?{{ qs }}">Export CSV (up to 5,000 rows)</a>
+  <a class="btn" href="{% url 'panel:export_xlsx' %}?{{ qs }}">Export Excel (up to 5,000 rows)</a>
 </form>
 {% if form.errors %}<p class="err">Some filters were ignored. Check that the dates are valid.</p>{% endif %}
 <div class="card">
